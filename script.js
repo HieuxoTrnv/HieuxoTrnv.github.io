@@ -1,21 +1,29 @@
+/* =========================================================
+   HIẾU XOĂN TRADER - SCRIPT HOÀN CHỈNH
+   Đã gộp:
+   - Chống lỗi #numberGrid null
+   - Tự cuộn màn hình về ảnh QR sau khi quay xong
+   - Highlight QR sau khi cuộn
+   ========================================================= */
+
 const AMOUNTS = (() => {
-    const TOTAL = 10000;
-    const MIN = 200000;
-    const MAX = 5000000;
-    const STEP = 100; // Bước 100đ để đủ số lượng không trùng
+  const TOTAL = 10000;
+  const MIN = 200000;
+  const MAX = 5000000;
+  const STEP = 100; // Bước 100đ để đủ số lượng không trùng
 
-    const totalPossible = Math.floor((MAX - MIN) / STEP) + 1;
-    const pool = Array.from({ length: totalPossible }, (_, i) => MIN + i * STEP);
+  const totalPossible = Math.floor((MAX - MIN) / STEP) + 1;
+  const pool = Array.from({ length: totalPossible }, (_, i) => MIN + i * STEP);
 
-    // Xáo trộn mảng (Fisher-Yates)
-    for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-    }
+  // Xáo trộn mảng (Fisher-Yates)
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
 
-    // Lấy 10.000 số đầu tiên và sắp xếp tăng dần
-    const result = pool.slice(0, TOTAL).sort((a, b) => a - b);
-    return result;
+  // Lấy 10.000 số đầu tiên và sắp xếp tăng dần
+  const result = pool.slice(0, TOTAL).sort((a, b) => a - b);
+  return result;
 })();
 
 console.log('Tổng số phần tử:', AMOUNTS.length);
@@ -39,18 +47,20 @@ const drawBtn = document.getElementById("drawBtn");
 const copyBtn = document.getElementById("copyBtn");
 const soundBtn = document.getElementById("soundBtn");
 const statusEl = document.getElementById("status");
-const grid = document.getElementById("numberGrid");
+const grid = document.getElementById("numberGrid"); // có thể null nếu HTML không có
 
 let currentAmount = null;
 let soundOn = true;
 let audioCtx = null;
 let spinTimer = null;
 
+/* ---------- Helpers ---------- */
 function formatVND(n) {
   return new Intl.NumberFormat("vi-VN").format(n) + " đ";
 }
 
 function initGrid() {
+  if (!grid) return; // HTML không có #numberGrid → bỏ qua an toàn
   grid.innerHTML = "";
   AMOUNTS.forEach((amount, i) => {
     const el = document.createElement("div");
@@ -61,6 +71,17 @@ function initGrid() {
   });
 }
 
+function selectGridItem(index) {
+  if (!grid) return;
+  document.querySelectorAll(".number-item").forEach(el => el.classList.remove("active"));
+  const item = document.querySelector(`.number-item[data-index="${index}"]`);
+  if (item) {
+    item.classList.add("active");
+    item.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+/* ---------- Âm thanh ---------- */
 function tone(freq, duration = 0.08, type = "sine", volume = 0.035) {
   if (!soundOn) return;
   try {
@@ -75,16 +96,17 @@ function tone(freq, duration = 0.08, type = "sine", volume = 0.035) {
     gain.connect(audioCtx.destination);
     osc.start();
     osc.stop(audioCtx.currentTime + duration);
-  } catch(e) {}
+  } catch (e) {}
 }
 
 function fanfare() {
   if (!soundOn) return;
-  [523,659,784,1046].forEach((f, i) => {
+  [523, 659, 784, 1046].forEach((f, i) => {
     setTimeout(() => tone(f, 0.22, "triangle", 0.05), i * 110);
   });
 }
 
+/* ---------- QR ---------- */
 function setQR(amount) {
   const params = new URLSearchParams({
     amount: String(amount),
@@ -100,15 +122,47 @@ function setQR(amount) {
   qrLink.setAttribute("aria-disabled", "false");
 }
 
-function selectGridItem(index) {
-  document.querySelectorAll(".number-item").forEach(el => el.classList.remove("active"));
-  const item = document.querySelector(`.number-item[data-index="${index}"]`);
-  if (item) {
-    item.classList.add("active");
-    item.scrollIntoView({behavior:"smooth", block:"nearest"});
-  }
+/* ---------- Cuộn về QR sau khi quay ---------- */
+let hasScrolledToQR = false; // đổi thành false nếu muốn cuộn mỗi lần quay
+
+function scrollToQR() {
+  if (hasScrolledToQR) return;
+  hasScrolledToQR = true;
+
+  const qrImg = document.getElementById("vietqr");
+  const resultCard = document.getElementById("resultCard");
+  const qrWrap = document.querySelector(".qr-wrap");
+
+  const doScroll = (el) => {
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const headerOffset = 80; // chừa chỗ cho topbar
+    const y = window.pageYOffset + rect.top - headerOffset;
+    window.scrollTo({ top: y, behavior: "smooth" });
+
+    // Highlight nhẹ quanh khung QR
+    if (qrWrap) {
+      qrWrap.classList.add("highlight");
+      setTimeout(() => qrWrap.classList.remove("highlight"), 1500);
+    }
+  };
+
+  // Đợi 1 nhịp để ảnh QR kịp render
+  requestAnimationFrame(() => {
+    if (qrImg && !qrImg.hidden) {
+      if (qrImg.complete && qrImg.naturalWidth > 0) {
+        doScroll(qrImg);
+      } else {
+        qrImg.onload = () => doScroll(qrImg);
+        qrImg.onerror = () => doScroll(resultCard); // fallback nếu ảnh lỗi
+      }
+    } else {
+      doScroll(resultCard);
+    }
+  });
 }
 
+/* ---------- Quay số ---------- */
 function draw() {
   if (drawBtn.disabled) return;
   drawBtn.disabled = true;
@@ -139,11 +193,16 @@ function draw() {
       copyBtn.disabled = false;
       statusEl.textContent = "🎉 Đã có kết quả!";
       fanfare();
+
+      // ✅ Cuộn màn hình về vị trí ảnh QR
+      scrollToQR();
+
       drawBtn.disabled = false;
     }
   }, 70);
 }
 
+/* ---------- Copy thông tin ---------- */
 copyBtn.addEventListener("click", async () => {
   if (!currentAmount) return;
   const text =
@@ -157,16 +216,18 @@ NỘI DUNG: ${NOTE}`;
     await navigator.clipboard.writeText(text);
     copyBtn.textContent = "✅ Đã sao chép";
     setTimeout(() => copyBtn.textContent = "📋 Sao chép thông tin", 1800);
-  } catch(e) {
+  } catch (e) {
     alert(text);
   }
 });
 
+/* ---------- Âm thanh bật/tắt ---------- */
 soundBtn.addEventListener("click", () => {
   soundOn = !soundOn;
   soundBtn.textContent = soundOn ? "🔊 Âm thanh: BẬT" : "🔇 Âm thanh: TẮT";
   if (soundOn) tone(660, 0.12, "triangle", 0.04);
 });
 
+/* ---------- Khởi tạo ---------- */
 drawBtn.addEventListener("click", draw);
 initGrid();
