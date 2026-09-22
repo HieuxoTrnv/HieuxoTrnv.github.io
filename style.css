@@ -1,0 +1,140 @@
+*{box-sizing:border-box}
+:root{
+  --bg:#07111f;
+  --card:#0e1b2d;
+  --card2:#12243a;
+  --line:rgba(255,255,255,.10);
+  --text:#f7fbff;
+  --muted:#9eb0c5;
+  --cyan:#35d6ff;
+  --green:#37e28b;
+  --gold:#ffd166;
+  --red:#ff5d73;
+}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 20% 10%,rgba(53,214,255,.13),transparent 32%),
+    radial-gradient(circle at 90% 40%,rgba(55,226,139,.10),transparent 30%),
+    var(--bg);
+  font-family:"Be Vietnam Pro",system-ui,sans-serif;
+}
+.bg-glow{position:fixed;width:280px;height:280px;border-radius:50%;filter:blur(80px);opacity:.22;pointer-events:none}
+.glow-1{background:#00bfff;top:10%;left:-100px}
+.glow-2{background:#00ff91;right:-120px;bottom:10%}
+.topbar{
+  width:min(1180px,92%);
+  margin:auto;
+  padding:22px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+}
+.brand{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none}
+.brand-mark{
+  width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
+  font-weight:800;background:linear-gradient(135deg,var(--cyan),#6b65ff);
+  color:#04101c;box-shadow:0 10px 30px rgba(53,214,255,.18)
+}
+.brand strong{display:block;letter-spacing:1.5px}
+.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:3px}
+.youtube{
+  color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);padding:11px 16px;border-radius:999px;font-weight:600
+}
+.youtube:hover{background:rgba(255,255,255,.10)}
+.container{width:min(1180px,92%);margin:auto;padding:34px 0 60px}
+.hero{text-align:center;margin:18px 0 34px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--cyan);margin:0 0 9px}
+h1{font-size:clamp(30px,5vw,62px);line-height:1.05;margin:0;font-weight:800}
+h1 span{display:block;color:var(--green)}
+.subtitle{color:var(--muted);max-width:700px;margin:14px auto 0;font-size:15px}
+.game-card{display:grid;grid-template-columns:1.08fr .92fr;gap:20px;align-items:stretch}
+.machine,.result-card,.numbers-card{
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(18,36,58,.88),rgba(8,20,34,.94));
+  border-radius:26px;box-shadow:0 24px 80px rgba(0,0,0,.25)
+}
+.machine{padding:30px;display:flex;flex-direction:column;justify-content:center;text-align:center}
+.machine-top{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:2px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 15px var(--green)}
+.number-window{
+  margin:22px auto 14px;width:min(100%,560px);min-height:180px;
+  border-radius:24px;display:grid;place-items:center;padding:20px;
+  background:#030a12;border:2px solid rgba(53,214,255,.24);
+  box-shadow:inset 0 0 45px rgba(0,0,0,.65),0 0 35px rgba(53,214,255,.06)
+}
+#displayAmount{font-size:clamp(40px,7vw,76px);font-weight:800;letter-spacing:-2px;color:#fff}
+.status{min-height:24px;color:var(--muted);font-size:13px}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+button{font:inherit;cursor:pointer}
+.draw-btn{
+  border:0;border-radius:14px;padding:15px 28px;font-weight:800;color:#03120b;
+  background:linear-gradient(135deg,var(--green),#a5ffcf);
+  box-shadow:0 12px 30px rgba(55,226,139,.18)
+}
+.draw-btn:hover{transform:translateY(-1px)}
+.draw-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.sound-btn{
+  border:1px solid var(--line);border-radius:14px;padding:15px 18px;color:#fff;
+  background:rgba(255,255,255,.05)
+}
+.hint{font-size:11px;color:#71859d;margin-top:16px}
+.result-card{padding:24px}
+.result-badge{font-size:11px;color:var(--gold);font-weight:800;letter-spacing:2px}
+.result-amount{font-size:clamp(32px,5vw,52px);font-weight:800;margin-top:5px}
+.result-note{color:var(--muted);font-size:12px;margin-top:3px}
+.transfer-box{margin-top:18px;padding:18px;border-radius:20px;background:rgba(0,0,0,.18);border:1px solid var(--line)}
+.transfer-title{font-weight:800;margin-bottom:14px}
+.qr-wrap{
+  background:#fff;border-radius:16px;min-height:230px;display:grid;place-items:center;
+  overflow:hidden;margin-bottom:14px;color:#6a7788;text-align:center;padding:8px
+}
+.qr-wrap img{width:min(100%,310px);height:auto;display:block}
+.bank-info{display:grid;gap:9px}
+.bank-info div{display:flex;justify-content:space-between;gap:15px;font-size:12px}
+.bank-info span{color:var(--muted)}
+.bank-info b{text-align:right}
+.transfer-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:15px}
+.secondary-btn,.primary-link{
+  border-radius:12px;padding:12px 10px;text-align:center;font-weight:700;font-size:12px;text-decoration:none
+}
+.secondary-btn{border:1px solid var(--line);color:#fff;background:rgba(255,255,255,.05)}
+.secondary-btn:disabled{opacity:.45;cursor:not-allowed}
+.primary-link{background:var(--cyan);color:#031018}
+.primary-link.disabled{opacity:.4;pointer-events:none}
+.warning{font-size:10px;line-height:1.5;color:#a7b5c4;margin:12px 0 0}
+.numbers-card{margin-top:20px;padding:24px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}
+.section-heading h2{font-size:22px;margin:0}
+.count{padding:7px 11px;border-radius:999px;background:rgba(53,214,255,.08);color:var(--cyan);font-size:11px;font-weight:800}
+.number-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:8px}
+.number-item{
+  padding:11px 4px;border:1px solid var(--line);border-radius:10px;text-align:center;
+  color:#c7d5e5;font-size:11px;background:rgba(255,255,255,.025)
+}
+.number-item.active{border-color:var(--green);background:rgba(55,226,139,.13);color:#fff;box-shadow:0 0 20px rgba(55,226,139,.10)}
+footer{
+  width:min(1180px,92%);margin:auto;padding:22px 0 34px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:10px;color:#71859d;font-size:11px
+}
+footer a{color:#8fa5bc}
+@media(max-width:900px){
+  .game-card{grid-template-columns:1fr}
+  .number-grid{grid-template-columns:repeat(5,1fr)}
+}
+@media(max-width:560px){
+  .topbar{padding-top:14px}
+  .youtube{font-size:11px;padding:9px 12px}
+  .brand strong{font-size:13px}
+  .machine,.result-card,.numbers-card{border-radius:20px}
+  .machine{padding:22px 15px}
+  .number-window{min-height:140px}
+  .transfer-actions{grid-template-columns:1fr}
+  .number-grid{grid-template-columns:repeat(4,1fr)}
+  footer{flex-direction:column}
+}

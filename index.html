@@ -1,66 +1,118 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hôm nay trade gì</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #333;
-        }
-        .container {
-            background: white;
-            padding: 60px 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 600px;
-        }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        p {
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            transition: transform 0.3s;
-        }
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hiếu Xoăn Trader - Vòng quay 100 mức tiền ngẫu nhiên">
+  <title>Hiếu Xoăn Trader - Quay số</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>👋 Xin chào!</h1>
-        <p>Chào các chứng thủ.</p>
-        <a href="https://www.youtube.com/@HieuXoanTrader" class="btn">Truy cập kênh Youtube Hiếu Xoăn</a>
-    </div>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Hiếu Xoăn Trader">
+      <span class="brand-mark">HXT</span>
+      <span>
+        <strong>HIẾU XOĂN</strong>
+        <small>TRADER</small>
+      </span>
+    </a>
+    <a class="youtube" href="https://www.youtube.com/@HieuXoanTrader" target="_blank" rel="noopener noreferrer">
+      ▶ YouTube Hiếu Xoăn Trader
+    </a>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">🎰 RANDOM 100 MỨC TIỀN</p>
+      <h1>VÒNG QUAY <span>HIẾU XOĂN TRADER</span></h1>
+      <p class="subtitle">Quay ngẫu nhiên 1 trong 100 mức tiền từ <b>300.000đ</b> đến <b>10.000.000đ</b>.</p>
+    </section>
+
+    <section class="game-card">
+      <div class="machine">
+        <div class="machine-top">
+          <span class="dot"></span>
+          <span>LIVE DRAW</span>
+          <span class="dot"></span>
+        </div>
+
+        <div class="number-window" id="numberWindow">
+          <span id="displayAmount">0 đ</span>
+        </div>
+
+        <div class="status" id="status">Sẵn sàng quay số</div>
+
+        <div class="actions">
+          <button id="drawBtn" class="draw-btn">🎲 QUAY SỐ</button>
+          <button id="soundBtn" class="sound-btn" type="button">🔊 Âm thanh: BẬT</button>
+        </div>
+
+        <div class="hint">Bấm QUAY SỐ để chọn ngẫu nhiên 1 trong 100 mức tiền.</div>
+      </div>
+
+      <aside class="result-card" id="resultCard">
+        <div class="result-badge">KẾT QUẢ</div>
+        <div class="result-amount" id="resultAmount">—</div>
+        <p class="result-note">Mức tiền được chọn ngẫu nhiên.</p>
+
+        <div class="transfer-box">
+          <div class="transfer-title">💸 Thông tin chuyển khoản</div>
+          <div class="qr-wrap">
+            <img id="vietqr" alt="VietQR chuyển khoản" hidden>
+            <div id="qrPlaceholder">QR sẽ xuất hiện sau khi quay.</div>
+          </div>
+
+          <div class="bank-info">
+            <div><span>Ngân hàng</span><b>Techcombank</b></div>
+            <div><span>Chủ tài khoản</span><b>NGUYEN VAN HIEU</b></div>
+            <div><span>Số tài khoản</span><b id="accountNo">1903 4697 6150 19</b></div>
+            <div><span>Số tiền</span><b id="transferAmount">—</b></div>
+            <div><span>Nội dung</span><b id="transferNote">HIEU XOAN TRADER</b></div>
+          </div>
+
+          <div class="transfer-actions">
+            <button id="copyBtn" class="secondary-btn" disabled>📋 Sao chép thông tin</button>
+            <a id="qrLink" class="primary-link disabled" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true">
+              Mở QR chuyển khoản ↗
+            </a>
+          </div>
+          <p class="warning">⚠️ Hãy kiểm tra đúng tên người nhận và số tiền trước khi xác nhận giao dịch.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="numbers-card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">DANH SÁCH</p>
+          <h2>100 mức tiền trong vòng quay</h2>
+        </div>
+        <span class="count">100 số</span>
+      </div>
+      <div class="number-grid" id="numberGrid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Hiếu Xoăn Trader</p>
+    <a href="https://www.youtube.com/@HieuXoanTrader" target="_blank" rel="noopener noreferrer">
+      Kênh YouTube: @HieuXoanTrader
+    </a>
+  </footer>
+
+  <!--
+    Nhạc:
+    Trang dùng Web Audio để tạo hiệu ứng quay số, nên chạy được ngay trên GitHub Pages.
+    Nếu bạn có file nhạc xổ số miền Bắc mà bạn có quyền sử dụng, đặt tên là "lottery.mp3"
+    cạnh index.html và đổi JS để phát file đó thay cho hiệu ứng âm thanh.
+  -->
+
+  <script src="script.js"></script>
 </body>
 </html>
