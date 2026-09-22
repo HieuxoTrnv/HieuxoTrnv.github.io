@@ -187,3 +187,30 @@ footer a{color:#8fa5bc}
   letter-spacing: 1px;
   opacity: 0.7;
 }
+
+/* Hiệu ứng làm nổi bật mã QR sau khi quay */
+.qr-wrap.highlight {
+  animation: qrHighlight 1.8s ease;
+}
+
+@keyframes qrHighlight {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(53,214,255,0);
+  }
+
+  30% {
+    transform: scale(1.025);
+    box-shadow: 0 0 35px rgba(53,214,255,.65);
+  }
+
+  60% {
+    transform: scale(1.015);
+    box-shadow: 0 0 25px rgba(55,226,139,.45);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+}
