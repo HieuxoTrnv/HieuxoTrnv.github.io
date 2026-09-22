@@ -11,7 +11,7 @@ Mở `index.html` bằng trình duyệt.
 5. Chờ GitHub Pages xuất bản website.
 
 ## Tính năng
-- 100 mức tiền cố định, mỗi mức nằm trong khoảng 300.000đ–10.000.000đ.
+- 100 mức tiền cố định, mỗi mức nằm trong khoảng 200.000đ–5.000.000đ.
 - Bấm **QUAY SỐ** để chọn ngẫu nhiên.
 - Sau khi có kết quả, website tạo VietQR động theo đúng số tiền.
 - Techcombank, tài khoản 19034697615019, chủ tài khoản NGUYEN VAN HIEU.
