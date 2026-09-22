@@ -1,104 +1,53 @@
-const AMOUNTS = [
-      360000,
-      380000,
-      540000,
-      920000,
-      1120000,
-      1290000,
-      1430000,
-      1480000,
-      1650000,
-      1800000,
-      1890000,
-      1910000,
-      1930000,
-      2040000,
-      2180000,
-      2230000,
-      2280000,
-      2300000,
-      2310000,
-      2390000,
-      2460000,
-      2490000,
-      2710000,
-      2730000,
-      2760000,
-      2790000,
-      2810000,
-      2930000,
-      3030000,
-      3060000,
-      3130000,
-      3220000,
-      3370000,
-      3490000,
-      3640000,
-      3650000,
-      3740000,
-      3830000,
-      3900000,
-      3930000,
-      4000000,
-      4010000,
-      4070000,
-      4250000,
-      4350000,
-      4430000,
-      4510000,
-      4590000,
-      4600000,
-      4630000,
-      4640000,
-      4850000,
-      4920000,
-      5020000,
-      5260000,
-      5280000,
-      5310000,
-      5330000,
-      5350000,
-      5490000,
-      5500000,
-      5650000,
-      5690000,
-      5780000,
-      5820000,
-      6120000,
-      6170000,
-      6190000,
-      6400000,
-      6430000,
-      6560000,
-      6600000,
-      6690000,
-      7060000,
-      7150000,
-      7280000,
-      7500000,
-      7560000,
-      7570000,
-      7800000,
-      7900000,
-      7940000,
-      8000000,
-      8030000,
-      8090000,
-      8290000,
-      8340000,
-      8370000,
-      8390000,
-      8470000,
-      8500000,
-      8510000,
-      8900000,
-      9110000,
-      9480000,
-      9590000,
-      9700000,
-      9750000,
-      9840000,
-      9900000
+const// =========================================================
+// TẠO MẢNG AMOUNTS GỒM 10000 SỐ TỪ 200.000 ĐẾN 5.000.000
+// Định dạng giống mẫu: số nguyên, làm tròn đến hàng nghìn
+// =========================================================
+
+const AMOUNTS = (() => {
+    const TOTAL = 10000;
+    const MIN = 200000;
+    const MAX = 5000000;
+    const STEP = 1000; // Bước nhảy 1000đ để số đẹp
+
+    const result = [];
+    const used = new Set();
+
+    // Tính số lượng giá trị có thể có (từ 200k đến 5tr, bước 1k)
+    // (5.000.000 - 200.000) / 1000 + 1 = 4801 giá trị
+    const totalPossible = Math.floor((MAX - MIN) / STEP) + 1;
+
+    // Nếu số lượng cần tạo > số lượng giá trị có thể có -> phải lặp lại
+    // Ở đây 10000 > 4801, nên chắc chắn sẽ có sự lặp lại.
+    // Ta sẽ tạo ngẫu nhiên có trùng lặp, sau đó sắp xếp tăng dần.
+
+    for (let i = 0; i < TOTAL; i++) {
+        const randomIndex = Math.floor(Math.random() * totalPossible);
+        const value = MIN + randomIndex * STEP;
+        result.push(value);
+    }
+
+    // Sắp xếp tăng dần giống mẫu
+    result.sort((a, b) => a - b);
+
+    return result;
+})();
+
+// =========================================================
+// KIỂM TRA KẾT QUẢ
+// =========================================================
+console.log('Tổng số phần tử:', AMOUNTS.length);
+console.log('Số nhỏ nhất:', AMOUNTS[0]);
+console.log('Số lớn nhất:', AMOUNTS[AMOUNTS.length - 1]);
+console.log('10 số đầu tiên:', AMOUNTS.slice(0, 10));
+console.log('10 số cuối cùng:', AMOUNTS.slice(-10));
+
+// Kiểm tra tất cả số đều nằm trong khoảng 200k - 5tr
+const isValid = AMOUNTS.every(v => v >= 200000 && v <= 5000000);
+console.log('Tất cả số hợp lệ (200k-5tr):', isValid);
+
+// Kiểm tra tất cả số đều là bội số của 1000
+const isRounded = AMOUNTS.every(v => v % 1000 === 0);
+console.log('Tất cả số làm tròn nghìn:', isRounded);
 ];
 
 const ACCOUNT_NO = "19034697615019";
