@@ -122,44 +122,37 @@ function setQR(amount) {
   qrLink.setAttribute("aria-disabled", "false");
 }
 
-/* ---------- Cuộn về QR sau khi quay ---------- */
-let hasScrolledToQR = false; // đổi thành false nếu muốn cuộn mỗi lần quay
-
+/* ---------- Tự động cuộn đến mã QR sau khi quay ---------- */
 function scrollToQR() {
-  if (hasScrolledToQR) return;
-  hasScrolledToQR = true;
-
-  const qrImg = document.getElementById("vietqr");
-  const resultCard = document.getElementById("resultCard");
   const qrWrap = document.querySelector(".qr-wrap");
+  const resultCard = document.getElementById("resultCard");
 
-  const doScroll = (el) => {
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const headerOffset = 80; // chừa chỗ cho topbar
-    const y = window.pageYOffset + rect.top - headerOffset;
-    window.scrollTo({ top: y, behavior: "smooth" });
+  // Ưu tiên cuộn đến khung QR
+  const target = qrWrap || resultCard;
 
-    // Highlight nhẹ quanh khung QR
+  if (!target) return;
+
+  // Chờ DOM cập nhật và QR hiển thị
+  setTimeout(() => {
+    const headerOffset = 20;
+
+    const rect = target.getBoundingClientRect();
+    const targetY = window.scrollY + rect.top - headerOffset;
+
+    window.scrollTo({
+      top: targetY,
+      behavior: "smooth"
+    });
+
+    // Hiệu ứng nhấn mạnh QR
     if (qrWrap) {
       qrWrap.classList.add("highlight");
-      setTimeout(() => qrWrap.classList.remove("highlight"), 1500);
-    }
-  };
 
-  // Đợi 1 nhịp để ảnh QR kịp render
-  requestAnimationFrame(() => {
-    if (qrImg && !qrImg.hidden) {
-      if (qrImg.complete && qrImg.naturalWidth > 0) {
-        doScroll(qrImg);
-      } else {
-        qrImg.onload = () => doScroll(qrImg);
-        qrImg.onerror = () => doScroll(resultCard); // fallback nếu ảnh lỗi
-      }
-    } else {
-      doScroll(resultCard);
+      setTimeout(() => {
+        qrWrap.classList.remove("highlight");
+      }, 1800);
     }
-  });
+  }, 300);
 }
 
 /* ---------- Quay số ---------- */
