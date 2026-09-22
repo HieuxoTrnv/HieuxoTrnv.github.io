@@ -214,3 +214,47 @@ footer a{color:#8fa5bc}
     box-shadow: none;
   }
 }
+
+@media(max-width:700px){
+  .topbar{
+    grid-template-columns:1fr auto;
+    grid-template-areas:
+      "brand youtube"
+      "vps vps";
+    gap:12px;
+  }
+
+  .brand{
+    grid-area:brand;
+  }
+
+  .youtube{
+    grid-area:youtube;
+  }
+
+  .vps-open{
+    grid-area:vps;
+    justify-self:center;
+  }
+}
+.topbar{
+  width:min(1180px,92%);
+  margin:auto;
+  padding:22px 0;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:16px;
+}
+
+.brand{
+  justify-self:start;
+}
+
+.vps-open{
+  justify-self:center;
+}
+
+.youtube{
+  justify-self:end;
+}
