@@ -26,7 +26,7 @@ console.log('Có trùng lặp không?', new Set(AMOUNTS).size !== AMOUNTS.length
 const ACCOUNT_NO = "19034697615019";
 const ACCOUNT_NAME = "NGUYEN VAN HIEU";
 const BANK_ID = "970407"; // Techcombank
-const NOTE = "HIEU XOAN TRADER";
+const NOTE = "DONATE HIEU XOAN TRADER";
 
 const displayAmount = document.getElementById("displayAmount");
 const resultAmount = document.getElementById("resultAmount");
